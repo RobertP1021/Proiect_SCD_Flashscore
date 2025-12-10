@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: FlashscoreDB
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command: start-dev
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+
+  user-service:
+    image: flashscore-user-service
+    environment:
+      DB_HOST: postgres
+      DB_NAME: FlashscoreDB
+      DB_USER: admin
+      DB_PASSWORD: admin123
+    ports:
+      - "8001:8000"
+    depends_on:
+      - postgres
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: overlay
+
+volumes:
+  postgres_data:
+  keycloak_data:
