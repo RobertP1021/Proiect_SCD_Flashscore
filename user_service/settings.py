@@ -122,3 +122,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Keycloak Configuration
+KEYCLOAK_SERVER_URL = os.environ.get('KEYCLOAK_SERVER_URL', 'http://keycloak:8080')
+KEYCLOAK_REALM = os.environ.get('KEYCLOAK_REALM', 'flashscore-realm')
+KEYCLOAK_CLIENT_ID = os.environ.get('KEYCLOAK_CLIENT_ID', 'flashscore-client')
+KEYCLOAK_CLIENT_SECRET = os.environ.get('KEYCLOAK_CLIENT_SECRET', 'DpTfkSP9QpzGAH9yJnS1zRpHhPrhakmP')
